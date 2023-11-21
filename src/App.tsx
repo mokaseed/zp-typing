@@ -10,6 +10,8 @@ function App() {
 
   const typingToggle = () => {
     setTyping(typing ? false : true);
+
+    // TODO：jsonでテキスト候補を用意し、スタートしたらランダムで表示されるようにする
   };
 
   const refresh = () => {
@@ -46,6 +48,7 @@ function App() {
           setKeyPosition(keyPosition + 1);
 
           // 全ての文字を入力し終わったとき
+          // TODO：ランダムで別のtextをセット（リセット使ってもいいかも？）
         } else {
           // 入力不可にする
           setTyping(false);
@@ -70,6 +73,7 @@ function App() {
       </div>
       <div className="button-wrap">
       <MyButton onClick={typingToggle}>{typing ? "ストップ" : "スタート"}</MyButton>
+      {/* TODO：リセットを「中止」に変更してもいいかも。その場合上の「ストップ」も不要 */}
       <MyButton onClick={refresh}>リセット</MyButton>
       </div>
     </div>
