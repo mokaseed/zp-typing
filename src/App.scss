@@ -1,0 +1,39 @@
+.textbox {
+  font-size: 40px;
+  line-height: 1;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.current-letters {
+  color: rgb(153, 153, 153);
+  animation: blinkBorder 0.5s linear infinite alternate;
+}
+
+@keyframes blinkBorder {
+  0% {
+    border-bottom: 6px solid rgb(153, 153, 153);
+  }
+  100% {
+    border-bottom: 6px solid transparent;
+  }
+}
+
+.typed-letters {
+  color: black;
+}
+
+.waiting-letters {
+  color: rgb(153, 153, 153);
+}
+
+.typo {
+  color: red;
+}
+
+.button-wrap {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
