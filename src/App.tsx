@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
+import * as wanakana from 'wanakana';
 
 const textDataArr = [
-  "aaa",
-  "bbb",
-  "ccc",
-  "ddd",
-  "eee",
-  "fff",
-  "ggg",
-  "hhh",
-  "iii",
+  "おはよう",
+  "こんにちは",
+  "こんばんは",
 ];
 
 function App() {
-  const [text, setText] = useState("push start!!");
+  const [displayText, setDisplayText] = useState("push start!!");
+  const [typingRomajiText, setTypingRomajiText] = useState("");
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
 
   const setRandomText = () => {
     // テキストをランダムでセット
-    setText(textDataArr[Math.floor(Math.random() * textDataArr.length)]);
+    let randomTextKana = textDataArr[Math.floor(Math.random() * textDataArr.length)];
+    setDisplayText(randomTextKana);
+    setTypingRomajiText(wanakana.toRomaji(randomTextKana));
   };
 
   const refresh = () => {
@@ -41,7 +39,8 @@ function App() {
   const typingToggle = () => {
     // 「中止」が押された時
     if (typing) {
-      setText("push start!!");
+      setDisplayText("push start!!");
+      setTypingRomajiText("");
       refresh();
 
       // 「スタート」が押された時
@@ -64,14 +63,14 @@ function App() {
       let textSpans = document.querySelector(".textbox")!.children;
 
       // 入力したキーと現在入力しようとしている文字が一致する時
-      if (e.key === text[keyPosition]) {
+      if (e.key === typingRomajiText[keyPosition]) {
         // 現在の文字を入力済みとする
         textSpans[keyPosition].classList.add("typed-letters");
         textSpans[keyPosition].classList.remove("current-letters");
         textSpans[keyPosition].classList.remove("typo");
 
         // まだ入力していない文字があるとき
-        if (keyPosition <= text.length - 2) {
+        if (keyPosition <= typingRomajiText.length - 2) {
           // 次の位置へ移動
           textSpans[keyPosition + 1].className = "current-letters";
           setKeyPosition(keyPosition + 1);
@@ -92,9 +91,10 @@ function App() {
 
   return (
     <div className="App" onKeyDown={(e) => handleKeyDown(e)} tabIndex={0}>
+      <p className="display-text">{displayText}</p>
       <div className={`textbox ${typing ? "" : "isStandby"}`}>
-        <span className="current-letters">{text[0]}</span>
-        {text
+        <span className="current-letters">{typingRomajiText[0]}</span>
+        {typingRomajiText
           .split("")
           .slice(1)
           .map((char, i) => (
