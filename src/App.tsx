@@ -1,43 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
 
+const textDataArr = [
+  "aaa",
+  "bbb",
+  "ccc",
+  "ddd",
+  "eee",
+  "fff",
+  "ggg",
+  "hhh",
+  "iii",
+];
+
 function App() {
-  const [text, setText] = useState("test text");
+  const [text, setText] = useState("push start!!");
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
-  
+
+  const setRandomText = () => {
+    // テキストをランダムでセット
+    setText(textDataArr[Math.floor(Math.random() * textDataArr.length)]);
+  };
+
+  const refresh = () => {
+    let textSpans = document.querySelector(".textbox")!.children;
+
+    [...textSpans].forEach((textSpan) => {
+      textSpan.className = "waiting-letters";
+    });
+
+    // 最初の文字のクラス名のみ変更
+    textSpans[0].className = "current-letters";
+
+    // keyPositionをリセット
+    setKeyPosition(0);
+  };
 
   const typingToggle = () => {
-
     // 「中止」が押された時
-    if(typing) {
-      let textSpans = document.querySelector(".textbox")!.children;
+    if (typing) {
+      setText("push start!!");
+      refresh();
 
-      [...textSpans].forEach((textSpan) => {
-        textSpan.className = "waiting-letters";
-      })
-  
-      // 最初の文字のクラス名のみ変更
-      textSpans[0].className = "current-letters";
-  
-      // keyPositionをリセット
-      setKeyPosition(0);
-
-    // 「スタート」が押された時
+      // 「スタート」が押された時
     } else {
       let textbox: HTMLElement | null = document.querySelector(".App");
-      
-      if(textbox !== null) {
+
+      if (textbox !== null) {
         textbox.focus();
       }
+      setRandomText();
     }
 
     setTyping(typing ? false : true);
-
-    // TODO：jsonでテキスト候補を用意し、スタートしたらランダムで表示されるようにする
   };
-
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     // buttonがtrueの時
@@ -58,11 +76,12 @@ function App() {
           textSpans[keyPosition + 1].className = "current-letters";
           setKeyPosition(keyPosition + 1);
 
-          // 全ての文字を入力し終わったとき
-          // TODO：ランダムで別のtextをセット（リセット使ってもいいかも？）
         } else {
-          // リセットする
-          typingToggle();
+          // 全ての文字を入力し終わったとき
+          // クラス名と入力位置をリフレッシュ
+          refresh();
+          // ランダムで次のテキストをセット
+          setRandomText();
         }
         // 間違ったキーを入力したとき
       } else {
@@ -73,17 +92,21 @@ function App() {
 
   return (
     <div className="App" onKeyDown={(e) => handleKeyDown(e)} tabIndex={0}>
-      <div className="textbox">
+      <div className={`textbox ${typing ? "" : "isStandby"}`}>
         <span className="current-letters">{text[0]}</span>
         {text
           .split("")
           .slice(1)
           .map((char, i) => (
-            <span key={i} className="waiting-letters">{char}</span>
+            <span key={i} className="waiting-letters">
+              {char}
+            </span>
           ))}
       </div>
       <div className="button-wrap">
-      <MyButton typing={typing} onClick={typingToggle}>{typing ? "中止" : "スタート"}</MyButton>
+        <MyButton typing={typing} onClick={typingToggle}>
+          {typing ? "中止" : "スタート"}
+        </MyButton>
       </div>
     </div>
   );
