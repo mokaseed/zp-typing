@@ -5,6 +5,12 @@
   margin-top: 40px;
 }
 
+.isStandby .current-letters,
+.isStandby .waiting-letters {
+  color: #333;
+  animation: none;
+}
+
 .current-letters {
   color: rgb(153, 153, 153);
   animation: blinkBorder 0.5s linear infinite alternate;
