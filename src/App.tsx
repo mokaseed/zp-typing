@@ -9,24 +9,35 @@ function App() {
   
 
   const typingToggle = () => {
+
+    // 「中止」が押された時
+    if(typing) {
+      let textSpans = document.querySelector(".textbox")!.children;
+
+      [...textSpans].forEach((textSpan) => {
+        textSpan.className = "waiting-letters";
+      })
+  
+      // 最初の文字のクラス名のみ変更
+      textSpans[0].className = "current-letters";
+  
+      // keyPositionをリセット
+      setKeyPosition(0);
+
+    // 「スタート」が押された時
+    } else {
+      let textbox: HTMLElement | null = document.querySelector(".App");
+      
+      if(textbox !== null) {
+        textbox.focus();
+      }
+    }
+
     setTyping(typing ? false : true);
 
     // TODO：jsonでテキスト候補を用意し、スタートしたらランダムで表示されるようにする
   };
 
-  const refresh = () => {
-    let textSpans = document.querySelector(".textbox")!.children;
-
-    [...textSpans].forEach((textSpan) => {
-      textSpan.className = "waiting-letters";
-    })
-
-    // 最初の文字のクラス名のみ変更
-    textSpans[0].className = "current-letters";
-
-    // keyPositionをリセット
-    setKeyPosition(0);
-  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     // buttonがtrueの時
@@ -50,8 +61,8 @@ function App() {
           // 全ての文字を入力し終わったとき
           // TODO：ランダムで別のtextをセット（リセット使ってもいいかも？）
         } else {
-          // 入力不可にする
-          setTyping(false);
+          // リセットする
+          typingToggle();
         }
         // 間違ったキーを入力したとき
       } else {
@@ -72,9 +83,7 @@ function App() {
           ))}
       </div>
       <div className="button-wrap">
-      <MyButton onClick={typingToggle}>{typing ? "ストップ" : "スタート"}</MyButton>
-      {/* TODO：リセットを「中止」に変更してもいいかも。その場合上の「ストップ」も不要 */}
-      <MyButton onClick={refresh}>リセット</MyButton>
+      <MyButton typing={typing} onClick={typingToggle}>{typing ? "中止" : "スタート"}</MyButton>
       </div>
     </div>
   );

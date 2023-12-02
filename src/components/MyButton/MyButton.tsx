@@ -4,10 +4,11 @@ import "./MyButton.scss";
 type Props = {
   children: any;
   onClick: () => void;
+  typing: boolean;
 };
 
-const MyButton = ({ children, onClick }: Props) => {
-  return <button onClick={onClick}>{children}</button>;
+const MyButton = ({ children, onClick, typing }: Props) => {
+  return <button className={typing ? "is-typing" : ""} onClick={onClick}>{children}</button>;
 };
 
 export default MyButton;
