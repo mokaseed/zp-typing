@@ -3,11 +3,19 @@ import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
 import * as wanakana from 'wanakana';
 
+
+// TODO: 漢字に対応させる。
 const textDataArr = [
-  "おはよう",
-  "こんにちは",
-  "こんばんは",
+  {
+    displayTextKanji: "有り難う",
+    dispalyTextKana: "ありがとう"
+  },
+  {
+    displayTextKanji: "素晴らしい",
+    dispalyTextKana: "すばらしい"
+  }
 ];
+
 
 function App() {
   const [displayText, setDisplayText] = useState("push start!!");
@@ -17,9 +25,10 @@ function App() {
 
   const setRandomText = () => {
     // テキストをランダムでセット
-    let randomTextKana = textDataArr[Math.floor(Math.random() * textDataArr.length)];
-    setDisplayText(randomTextKana);
-    setTypingRomajiText(wanakana.toRomaji(randomTextKana));
+    let randomText = textDataArr[Math.floor(Math.random() * textDataArr.length)];
+    
+    setDisplayText(randomText.displayTextKanji);
+    setTypingRomajiText(wanakana.toRomaji(randomText.dispalyTextKana));
   };
 
   const refresh = () => {
