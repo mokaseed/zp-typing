@@ -1,20 +1,9 @@
 import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
+import textDataArr from "./controllers/dispalyTextController";
 import * as wanakana from 'wanakana';
 
-
-// TODO: 漢字に対応させる。
-const textDataArr = [
-  {
-    displayTextKanji: "有り難う",
-    dispalyTextKana: "ありがとう"
-  },
-  {
-    displayTextKanji: "素晴らしい",
-    dispalyTextKana: "すばらしい"
-  }
-];
 
 
 function App() {
