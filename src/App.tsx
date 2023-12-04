@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
 import textDataArr from "./controllers/typingTextController";
-import * as wanakana from 'wanakana';
-
 
 
 function App() {
   const [displayText, setDisplayText] = useState("push start!!");
-  const [typingRomajiText, setTypingRomajiText] = useState("");
+  const [typingRomajiText, setTypingText] = useState("");
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
 
@@ -17,7 +15,7 @@ function App() {
     let randomText = textDataArr[Math.floor(Math.random() * textDataArr.length)];
     
     setDisplayText(randomText.displayTextKanji);
-    setTypingRomajiText(wanakana.toRomaji(randomText.dispalyTextKana));
+    setTypingText(randomText.typingText);
   };
 
   const refresh = () => {
@@ -38,7 +36,7 @@ function App() {
     // 「中止」が押された時
     if (typing) {
       setDisplayText("push start!!");
-      setTypingRomajiText("");
+      setTypingText("");
       refresh();
 
       // 「スタート」が押された時
