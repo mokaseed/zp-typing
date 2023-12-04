@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
 import textDataArr from "./controllers/typingTextController";
+import Header from "./components/Header/Header";
 
 
 function App() {
@@ -9,6 +10,14 @@ function App() {
   const [typingRomajiText, setTypingText] = useState("");
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [typoCount, setTypoCount] = useState(0);
+  const [totalKeys, setTotalKeys] = useState(0);
+
+  // console.log(correctCount);
+  // console.log(typoCount);
+  console.log(totalKeys);
+  
 
   const setRandomText = () => {
     // テキストをランダムでセット
@@ -58,8 +67,13 @@ function App() {
       // 文字の配列を取得
       let textSpans = document.querySelector(".textbox")!.children;
 
+      setTotalKeys(totalKeys + 1);
+
       // 入力したキーと現在入力しようとしている文字が一致する時
       if (e.key === typingRomajiText[keyPosition]) {
+        // 正解タイプ数をカウントアップ
+        setCorrectCount(correctCount + 1);
+        
         // 現在の文字を入力済みとする
         textSpans[keyPosition].classList.add("typed-letters");
         textSpans[keyPosition].classList.remove("current-letters");
@@ -80,6 +94,9 @@ function App() {
         }
         // 間違ったキーを入力したとき
       } else {
+        // ミスタイプ数をカウントアップ
+        setTypoCount(typoCount + 1);
+        
         textSpans[keyPosition].classList.add("typo");
       }
     }
@@ -87,6 +104,7 @@ function App() {
 
   return (
     <div className="App" onKeyDown={(e) => handleKeyDown(e)} tabIndex={0}>
+      <Header />
       <p className="display-text">{displayText}</p>
       <div className={`textbox ${typing ? "" : "isStandby"}`}>
         <span className="current-letters">{typingRomajiText[0]}</span>
