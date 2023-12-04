@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
-import textDataArr from "./controllers/dispalyTextController";
+import textDataArr from "./controllers/typingTextController";
 import * as wanakana from 'wanakana';
 
 
