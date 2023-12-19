@@ -16,7 +16,7 @@ function App() {
 
   // console.log(correctCount);
   // console.log(typoCount);
-  console.log(totalKeys);
+  // console.log(totalKeys);
   
 
   const setRandomText = () => {
@@ -106,7 +106,7 @@ function App() {
     <div className="App" onKeyDown={(e) => handleKeyDown(e)} tabIndex={0}>
       <Header />
       <p className="display-text">{displayText}</p>
-      <div className={`textbox ${typing ? "" : "isStandby"}`}>
+      <div className={`textbox ${!typing && "isStandby"}`}>
         <span className="current-letters">{typingRomajiText[0]}</span>
         {typingRomajiText
           .split("")
