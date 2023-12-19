@@ -21,14 +21,14 @@ function App() {
 
   const setRandomText = () => {
     // テキストをランダムでセット
-    let randomText = textDataArr[Math.floor(Math.random() * textDataArr.length)];
+    const randomText = textDataArr[Math.floor(Math.random() * textDataArr.length)];
     
     setDisplayText(randomText.displayTextKanji);
     setTypingText(randomText.typingText);
   };
 
   const refresh = () => {
-    let textSpans = document.querySelector(".textbox")!.children;
+    const textSpans = document.querySelector(".textbox")!.children;
 
     [...textSpans].forEach((textSpan) => {
       textSpan.className = "waiting-letters";
@@ -50,7 +50,7 @@ function App() {
 
       // 「スタート」が押された時
     } else {
-      let textbox: HTMLElement | null = document.querySelector(".App");
+      const textbox: HTMLElement | null = document.querySelector(".App");
 
       if (textbox !== null) {
         textbox.focus();
@@ -65,7 +65,7 @@ function App() {
     // buttonがtrueの時
     if (typing) {
       // 文字の配列を取得
-      let textSpans = document.querySelector(".textbox")!.children;
+      const textSpans = document.querySelector(".textbox")!.children;
 
       setTotalKeys(totalKeys + 1);
 
