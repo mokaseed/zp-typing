@@ -1,4 +1,3 @@
-import React, { Children } from "react";
 import "./MyButton.scss";
 
 type Props = {
@@ -8,7 +7,11 @@ type Props = {
 };
 
 const MyButton = ({ children, onClick, typing }: Props) => {
-  return <button className={typing ? "is-typing" : ""} onClick={onClick}>{children}</button>;
+  return (
+    <button className={`${typing && "is-typing"}`} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default MyButton;

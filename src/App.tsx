@@ -1,31 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
+import textDataArr from "./controllers/typingTextController";
+import Header from "./components/Header/Header";
 
-const textDataArr = [
-  "aaa",
-  "bbb",
-  "ccc",
-  "ddd",
-  "eee",
-  "fff",
-  "ggg",
-  "hhh",
-  "iii",
-];
 
 function App() {
-  const [text, setText] = useState("push start!!");
+  const [displayText, setDisplayText] = useState("push start!!");
+  const [typingRomajiText, setTypingText] = useState("");
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [typoCount, setTypoCount] = useState(0);
+  const [totalKeys, setTotalKeys] = useState(0);
+
+  // console.log(correctCount);
+  // console.log(typoCount);
+  // console.log(totalKeys);
+  
 
   const setRandomText = () => {
     // テキストをランダムでセット
-    setText(textDataArr[Math.floor(Math.random() * textDataArr.length)]);
+    const randomText = textDataArr[Math.floor(Math.random() * textDataArr.length)];
+    
+    setDisplayText(randomText.displayTextKanji);
+    setTypingText(randomText.typingText);
   };
 
   const refresh = () => {
-    let textSpans = document.querySelector(".textbox")!.children;
+    const textSpans = document.querySelector(".textbox")!.children;
 
     [...textSpans].forEach((textSpan) => {
       textSpan.className = "waiting-letters";
@@ -41,12 +44,13 @@ function App() {
   const typingToggle = () => {
     // 「中止」が押された時
     if (typing) {
-      setText("push start!!");
+      setDisplayText("push start!!");
+      setTypingText("");
       refresh();
 
       // 「スタート」が押された時
     } else {
-      let textbox: HTMLElement | null = document.querySelector(".App");
+      const textbox: HTMLElement | null = document.querySelector(".App");
 
       if (textbox !== null) {
         textbox.focus();
@@ -61,17 +65,22 @@ function App() {
     // buttonがtrueの時
     if (typing) {
       // 文字の配列を取得
-      let textSpans = document.querySelector(".textbox")!.children;
+      const textSpans = document.querySelector(".textbox")!.children;
+
+      setTotalKeys(totalKeys + 1);
 
       // 入力したキーと現在入力しようとしている文字が一致する時
-      if (e.key === text[keyPosition]) {
+      if (e.key === typingRomajiText[keyPosition]) {
+        // 正解タイプ数をカウントアップ
+        setCorrectCount(correctCount + 1);
+        
         // 現在の文字を入力済みとする
         textSpans[keyPosition].classList.add("typed-letters");
         textSpans[keyPosition].classList.remove("current-letters");
         textSpans[keyPosition].classList.remove("typo");
 
         // まだ入力していない文字があるとき
-        if (keyPosition <= text.length - 2) {
+        if (keyPosition <= typingRomajiText.length - 2) {
           // 次の位置へ移動
           textSpans[keyPosition + 1].className = "current-letters";
           setKeyPosition(keyPosition + 1);
@@ -85,6 +94,9 @@ function App() {
         }
         // 間違ったキーを入力したとき
       } else {
+        // ミスタイプ数をカウントアップ
+        setTypoCount(typoCount + 1);
+        
         textSpans[keyPosition].classList.add("typo");
       }
     }
@@ -92,9 +104,11 @@ function App() {
 
   return (
     <div className="App" onKeyDown={(e) => handleKeyDown(e)} tabIndex={0}>
-      <div className={`textbox ${typing ? "" : "isStandby"}`}>
-        <span className="current-letters">{text[0]}</span>
-        {text
+      <Header />
+      <p className="display-text">{displayText}</p>
+      <div className={`textbox ${!typing && "isStandby"}`}>
+        <span className="current-letters">{typingRomajiText[0]}</span>
+        {typingRomajiText
           .split("")
           .slice(1)
           .map((char, i) => (

@@ -1,8 +1,19 @@
+.App {
+  outline: none;
+}
+
+.display-text {
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+  margin-top: 40px;
+}
+
 .textbox {
   font-size: 40px;
   line-height: 1;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .isStandby .current-letters,
