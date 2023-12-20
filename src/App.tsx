@@ -23,17 +23,12 @@ function App() {
     setTypingText(randomText.typingText);
   };
 
-  const refresh = () => {
-    // keyPositionをリセット
-    setKeyPosition(0);
-  };
-
   const typingToggle = () => {
     // 「中止」が押された時
     if (typing) {
       setDisplayText("push start!!");
       setTypingText("");
-      refresh();
+      setKeyPosition(0);
 
       // 「スタート」が押された時
     } else {
@@ -63,10 +58,11 @@ function App() {
         if (keyPosition <= typingRomajiText.length - 2) {
           // 次の位置へ移動
           setKeyPosition(keyPosition + 1);
-        } else {
+
           // 全ての文字を入力し終わったとき
-          // クラス名と入力位置をリフレッシュ
-          refresh();
+        } else {
+          // 入力位置をリフレッシュ
+          setKeyPosition(0);
           // ランダムで次のテキストをセット
           setRandomText();
         }
