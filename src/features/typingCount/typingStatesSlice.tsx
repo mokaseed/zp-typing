@@ -44,9 +44,7 @@ export const {
 
 export const selectCorrectCount = (state: RootState) =>
   state.typingStates.correctCount;
-export const selectTypoCount = (state: RootState) =>
-  state.typingStates.typoCount;
-export const selectTotalKeys = (state: RootState) =>
-  state.typingStates.totalKeys;
+export const selectTypoCount = (state: RootState) => state.typingStates.typoCount;
+export const selectTotalKeys = (state: RootState) => state.typingStates.totalKeys;
 
 export default typingStatesSlice.reducer;
