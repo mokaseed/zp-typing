@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.scss";
-import TypingCount from "../TypingCount/TypingCount";
+import TypingCount from "../../features/typingCount/TypingStates/TypingStates";
 import PlayTimer from "../PlayTimer/PlayTimer";
 
 const Header = () => {
