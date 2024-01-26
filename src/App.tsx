@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./App.scss";
 import MyButton from "./components/MyButton/MyButton";
 import textDataArr from "./controllers/typingTextController";
 import Header from "./components/Header/Header";
+import {
+  correctCountIncrement,
+  typoCountIncrement,
+  totalKeysIncrement,
+  refresh,
+} from "./features/typingCount/typingStatesSlice";
 
 function App() {
   const [displayText, setDisplayText] = useState("push start!!");
@@ -10,9 +17,8 @@ function App() {
   const [typing, setTyping] = useState(false);
   const [keyPosition, setKeyPosition] = useState(0);
   const [isMisstype, setIsMisstype] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [typoCount, setTypoCount] = useState(0);
-  const [totalKeys, setTotalKeys] = useState(0);
+
+  const dispatch = useDispatch();
 
   const setRandomText = () => {
     // テキストをランダムでセット
@@ -37,6 +43,9 @@ function App() {
       if (textbox !== null) {
         textbox.focus();
       }
+
+      dispatch(refresh());
+
       setRandomText();
     }
 
@@ -46,12 +55,12 @@ function App() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     // buttonがtrueの時
     if (typing) {
-      setTotalKeys(totalKeys + 1);
+      dispatch(totalKeysIncrement());
 
       // 入力したキーと現在入力しようとしている文字が一致する時
       if (e.key === typingRomajiText[keyPosition]) {
         // 正解タイプ数をカウントアップ
-        setCorrectCount(correctCount + 1);
+        dispatch(correctCountIncrement());
         setIsMisstype(false);
 
         // まだ入力していない文字があるとき
@@ -69,7 +78,7 @@ function App() {
         // 間違ったキーを入力したとき
       } else {
         // ミスタイプ数をカウントアップ
-        setTypoCount(typoCount + 1);
+        dispatch(typoCountIncrement());
         setIsMisstype(true);
       }
     }
