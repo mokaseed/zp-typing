@@ -3,9 +3,9 @@ import { RootState } from "../../app/store";
 // import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface TypingStatesSlice {
-  correctCount: number; // 正解タイプ数
-  typoCount: number; // ミスタイプ数
-  totalKeys: number; // 全タイプ数
+  correctCount: number;
+  typoCount: number;
+  totalKeys: number;
 }
 
 const initialState: TypingStatesSlice = {
@@ -44,7 +44,9 @@ export const {
 
 export const selectCorrectCount = (state: RootState) =>
   state.typingStates.correctCount;
-export const selectTypoCount = (state: RootState) => state.typingStates.typoCount;
-export const selectTotalKeys = (state: RootState) => state.typingStates.totalKeys;
+export const selectTypoCount = (state: RootState) =>
+  state.typingStates.typoCount;
+export const selectTotalKeys = (state: RootState) =>
+  state.typingStates.totalKeys;
 
 export default typingStatesSlice.reducer;
